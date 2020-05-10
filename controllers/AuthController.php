@@ -48,7 +48,7 @@ class AuthController extends Controller
      */
     public function actionRegister()
     {
-        $model = new User();
+        $model = new User(['scenario' => User::SCENARIO_REGISTER]);
 
         if ($model->load(Yii::$app->request->post())  && $model->save()) {
             Yii::$app->session->setFlash(
@@ -71,17 +71,19 @@ class AuthController extends Controller
 
     public function actionConfirm($email, $code)
     {
-        $model = User::find()->byEmail($email)->one();
-        try {
-            if ($model->is_confirmed === 0 && $model->confirm_code === $code) {
-                $model->is_confirmed = 1;
-                $model->passwordConfirm = $model->password; // for model validation
-                if (!$model->save()) {
-                    throw new Exception('Cannot save model.');
-                }
+        $model = User::find()
+            ->byEmail($email)
+            ->andWhere([
+                'is_confirmed' => 0,
+                'confirm_code' => $code
+            ])
+            ->one();
+        if ($model !== null) {
+            $model->is_confirmed = 1;
+            if ($model->update(true, ['is_confirmed'])) {
                 Yii::$app->session->setFlash('success', 'Your email confirmed!');
             }
-        } catch (\Exception $e) {
+        } else {
             Yii::$app->session->setFlash('warning', 'Confirm error.');
         }
         return $this->render('confirm');

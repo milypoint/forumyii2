@@ -23,6 +23,8 @@ use yii\web\IdentityInterface;
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    const SCENARIO_REGISTER = 'register';
+
     /**
      * @var string
      */
@@ -43,7 +45,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'password', 'passwordConfirm', 'email'], 'trim'],
-            [['username', 'password', 'passwordConfirm', 'email'], 'required'],
+            [['username', 'password', 'email'], 'required'],
+            [['passwordConfirm'], 'required', 'on' => self::SCENARIO_REGISTER],
             [['username', 'email'], 'unique'],
             [['is_confirmed'], 'boolean'],
             [['password'], 'string', 'min' => 8],
