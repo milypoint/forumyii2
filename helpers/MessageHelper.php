@@ -2,9 +2,9 @@
 
 namespace app\helpers;
 
-use app\helpers\clients\NotValidDataException;
-use app\helpers\clients\UrlClientException;
-use app\helpers\clients\UrlShortenerClient;
+use milypoint\urlshortenerclient\UrlShortenerClient;
+use milypoint\urlshortenerclient\UrlClientException;
+use milypoint\urlshortenerclient\NotValidDataException;
 
 class MessageHelper
 {
@@ -30,6 +30,7 @@ class MessageHelper
      */
     public function urlsToShort()
     {
+        $client = new UrlShortenerClient();
         $indx_offset = 0;
         $url_pattern = '~(?<url>https?:\/\/[\w/\-?=%.]+\.[\w/\-?=%.@]+(?<!\.))~';
         preg_match_all($url_pattern, $this->message, $matches, PREG_OFFSET_CAPTURE);
@@ -37,7 +38,7 @@ class MessageHelper
             $url = $item[0];
             $indx = $item[1];
             try {
-                $short_url = UrlShortenerClient::action($url);
+                $short_url = $client->request($url);
                 $this->message =
                     substr($this->message, 0, $indx + $indx_offset) .
                     $short_url .

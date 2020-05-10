@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf7de9fb2ba3a6c90198a350fb7bda07",
+    "content-hash": "477a1ea91eb5a74ca2f8067ad3dd69c1",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -517,6 +517,43 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "milypoint/urlshortelerclient",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/milypoint/urlshortenerclient.git",
+                "reference": "48358e8c606a946364bf8d16cae217790e7687fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/milypoint/urlshortenerclient/zipball/48358e8c606a946364bf8d16cae217790e7687fc",
+                "reference": "48358e8c606a946364bf8d16cae217790e7687fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.5"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "milypoint\\urlshortelerclient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrii Tokar",
+                    "email": "milypointo@gmail.com"
+                }
+            ],
+            "description": "Client for url shortener https://github.com/milypoint/urlshortener",
+            "time": "2020-05-09T23:55:56+00:00"
         },
         {
             "name": "psr/http-message",
@@ -4457,7 +4494,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6.0"
+        "php": ">=5.6.0",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
