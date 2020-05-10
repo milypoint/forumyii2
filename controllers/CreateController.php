@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\Message;
 use app\models\NewPostForm;
 use app\models\Post;
 use yii\web\Controller;
@@ -45,6 +46,30 @@ class CreateController extends Controller
             }
         }
         return $this->render('newpost', ['model' => $model]);
+    }
+
+    public function actionMessage($post_id)
+    {
+        $model = new Message();
+        if ($model->load(Yii::$app->request->post())) {
+            $post = Post::findOne($post_id);
+            if ($post !== null) {
+                $model->post_id = $post->getPrimaryKey();
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash(
+                    'success',
+                    'Success! Message created.'
+                );
+                $model = new NewPostForm();
+            } else {
+                Yii::$app->session->setFlash(
+                    'warning',
+                    'Error! Message was not created.'
+                );
+            }
+        }
+        return $this->render('message', ['model' => $model]);
     }
 
     public function beforeAction($action)
