@@ -50,7 +50,8 @@ $config = [
                 'auth/confirm/<email>/<code>' => 'auth/confirm',
                 'login' => 'auth/login',
                 'register' => 'auth/register',
-                'logout' => 'auth/logout'
+                'logout' => 'auth/logout',
+                'GET' => 'site/index' // main page
             ],
         ],
     ],

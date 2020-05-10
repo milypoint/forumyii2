@@ -63,7 +63,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'password' => 'Password',
             'passwordConfirm' => 'Password Confirm',
             'email' => 'Email',
-            'date' => 'Date',
+            'created_at' => 'Creation date',
             'is_confirmed' => 'Is Confirmed',
             'confirm_code' => 'Confirm Code',
         ];

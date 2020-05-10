@@ -1,6 +1,8 @@
 <?php
 
+use yii\bootstrap\Button;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -17,4 +19,6 @@ use yii\widgets\ActiveForm;
         <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
+
+    <?php echo Html::a('Register', ['auth/register'], ['class'=>'btn btn-primary']) ?>
 </div>
