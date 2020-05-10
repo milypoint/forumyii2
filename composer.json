@@ -20,7 +20,7 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "guzzlehttp/guzzle": "^6.5",
       "ext-json": "*",
-        "milypoint/urlshortelerclient": "^0.1.0"
+        "milypoint/urlshortelerclient": "^0.1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

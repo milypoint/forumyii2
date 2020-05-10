@@ -30,6 +30,7 @@ class Message extends ActiveRecord
         return [
             [['content'], 'trim'],
             [['content', 'post_id', 'created_by'], 'required'],
+            //['post_id', 'exists', 'targetRelation' => 'post'] @todo add getPost relation
         ];
     }
 

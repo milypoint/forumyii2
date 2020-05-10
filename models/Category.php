@@ -5,10 +5,12 @@ namespace app\models;
 use app\helpers\MessageHelper;
 use app\helpers\TextHelper;
 use app\models\queries\CategoryQuery;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use Yii;
+use yii\helpers\Inflector;
 
 class Category extends ActiveRecord
 {
@@ -38,8 +40,6 @@ class Category extends ActiveRecord
      */
     public function attributeLabels()
     {
-        $this->id;
-
         return [
             'id' => 'ID',
             'name' => 'Category name',
@@ -56,6 +56,10 @@ class Category extends ActiveRecord
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => false,
                 'value' => new Expression('now()')
+            ],
+            [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false
             ]
         ];
     }
@@ -70,11 +74,7 @@ class Category extends ActiveRecord
 
     public function beforeValidate()
     {
-        $user = Yii::$app->user->identity;
-        if ($user !== null) {
-            $this->created_by = $user->getId();
-        }
-        $this->path = TextHelper::textToPath($this->name);
+        $this->path = Inflector::slug($this->name);
         return parent::beforeValidate();
     }
 }

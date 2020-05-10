@@ -22,6 +22,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => '/login'
         ],
         'errorHandler' => [
 //            'errorAction' => 'site/error',
@@ -49,12 +50,11 @@ $config = [
             'rules' => [
                 'auth/confirm/<email>/<code>' => 'auth/confirm',
                 'site/category/<category_path>' => 'site/category',
-                'create/post/<category_path>' => 'create/post',
-                'create/message/<post_id>' => 'create/message',
+                'post/create/<category_path>' => 'post/create',
+                'message/create/<post_id>' => 'message/create',
                 'login' => 'auth/login',
                 'register' => 'auth/register',
                 'logout' => 'auth/logout',
-                'GET' => 'site/index' // main page
             ],
         ],
     ],
