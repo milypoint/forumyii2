@@ -17,13 +17,23 @@ class m200506_155817_create_user_table extends Migration
             'username' => $this->string(),
             'password' => $this->string(),
             'email' => $this->string(),
-            'created_at' =>$this->timestamp(),
+            'created_at' => $this->timestamp(),
             'is_confirmed' => $this->boolean()->defaultValue(false)->notNull(),
             'confirm_code' => $this->string()
         ]);
 
-        $this->createIndex('uk_users_username', 'user', 'username', true);
-        $this->createIndex('uk_users_email', 'user', 'email', true);
+        $this->createIndex(
+            'uk_users_username',
+            'user',
+            'username',
+            true
+        );
+        $this->createIndex(
+            'uk_users_email',
+            'user',
+            'email',
+            true
+        );
     }
 
     /**
