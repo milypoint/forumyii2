@@ -48,6 +48,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'auth/confirm/<email>/<code>' => 'auth/confirm',
+                'site/category/<category_path>' => 'site/category',
                 'login' => 'auth/login',
                 'register' => 'auth/register',
                 'logout' => 'auth/logout',

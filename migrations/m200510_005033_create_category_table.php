@@ -16,6 +16,7 @@ class m200510_005033_create_category_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(),
             'description' => $this->text(),
+            'path' => $this->string()->notNull(),
             'created_by' => $this->integer()->notNull(),
             'created_at' => $this->timestamp()
         ]);
@@ -33,6 +34,13 @@ class m200510_005033_create_category_table extends Migration
             'idx-category-name',
             'category',
             'name',
+            true
+        );
+
+        $this->createIndex(
+            'idx-category-path',
+            'category',
+            'path',
             true
         );
     }
