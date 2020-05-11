@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use app\helpers\MessageHelper;
-use app\helpers\TextHelper;
 use app\models\queries\CategoryQuery;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;

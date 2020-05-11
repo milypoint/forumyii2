@@ -15,4 +15,9 @@ class PostQuery extends ActiveQuery
     {
         return $this->andWhere(['created_by' => $author_id]);
     }
+
+    public function byCategoryId($category_id)
+    {
+        return $this->andWhere(['category_id' => $category_id]);
+    }
 }

@@ -20,11 +20,22 @@ class CategoryController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['?'],
+                        'actions' => ['index']
                     ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
                 ],
             ],
         ];
+    }
+
+    public function actionIndex()
+    {
+        $categories = Category::find()->all();
+        return $this->render('index', ['model' => $categories]);
     }
 
     /**
@@ -38,8 +49,8 @@ class CategoryController extends Controller
                 'success',
                 'Success! Category created.'
             );
-            $model = new Category();
+            return $this->redirect('/category/'.$model->path);
         }
-        return $this->render('category', ['model' => $model]);
+        return $this->render('category_create', ['model' => $model]);
     }
 }

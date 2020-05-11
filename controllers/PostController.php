@@ -24,11 +24,31 @@ class PostController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['?'],
+                        'actions' => ['index']
                     ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
                 ],
             ],
         ];
+    }
+
+    /**
+     * @param $category_path
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionIndex($category_path)
+    {
+        $category = Category::find()->byPath($category_path)->one();
+        if ($category === null) {
+            throw new NotFoundHttpException('Category <'.$category_path.'> not found.');
+        }
+        $posts = Post::find()->byCategoryId($category->getPrimaryKey())->all();
+        return $this->render('index', ['category' => $category, 'posts' => $posts]);
     }
 
     /**
@@ -59,12 +79,13 @@ class PostController extends Controller
             }
             if ($isSucces) {
                 Yii::$app->session->setFlash('success', 'Success! Post created.');
-                $post = new Post();
-                $post_message = new Message();
+//                $post = new Post();
+//                $post_message = new Message();
+                return $this->redirect('/category/'.$category->path.'/post/'.$post->getPrimaryKey());
             } else {
                 Yii::$app->session->setFlash('warning', 'Error! Post was not created.');
             }
         }
-        return $this->render('post', ['post' => $post, 'message' => $post_message]);
+        return $this->render('post_create', ['post' => $post, 'message' => $post_message]);
     }
 }
