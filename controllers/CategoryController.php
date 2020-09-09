@@ -4,8 +4,10 @@ namespace app\controllers;
 
 use app\models\Category;
 use Yii;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class CategoryController extends Controller
 {
@@ -25,8 +27,14 @@ class CategoryController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['@']
-                    ]
+                        'roles' => ['user'],
+                        'actions' => ['index']
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                        'actions' => ['create', 'delete']
+                     ]
                 ],
             ],
         ];
@@ -52,5 +60,22 @@ class CategoryController extends Controller
             return $this->redirect('/category/'.$model->path);
         }
         return $this->render('category_create', ['model' => $model]);
+    }
+
+    public function actionDelete($category_path)
+    {
+        $model = Category::find()->byPath($category_path)->one();
+
+        if ($model === null) {
+            throw new NotFoundHttpException('Category with path <' .$category_path.'> not found.');
+        }
+
+        try {
+            $model->delete();
+            return $this->redirect(['index']);
+        } catch (StaleObjectException $e) {
+        } catch (\Throwable $e) {
+        }
+
     }
 }

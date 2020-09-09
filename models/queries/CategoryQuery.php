@@ -25,8 +25,13 @@ class CategoryQuery extends ActiveQuery
         return $this->andWhere(['created_by' => $author_id]);
     }
 
-    public function byPath($categoty_path)
+    public function byPath($category_path)
     {
-        return$this->andWhere(['path' => $categoty_path]);
+        return $this->andWhere(['path' => $category_path]);
+    }
+
+    public function byId($category_id)
+    {
+        return $this->andWhere(['id' => $category_id]);
     }
 }

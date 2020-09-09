@@ -14,5 +14,7 @@ use yii\widgets\ActiveForm;
         <a href="<?php echo '/category/'.$category->path.'/post/'.$post->getPrimaryKey(); ?>"><?php echo $post->title; ?></a>
         <br>
     <?php endforeach;?>
-    <?php echo Html::a('Create', ['/post/create/'.$category->path], ['class'=>'btn btn-primary']) ?>
+    <?php if (Yii::$app->user->can('user')) {
+        echo Html::a('Create', ['/post/create/'.$category->path], ['class'=>'btn btn-primary']);
+    }  ?>
 </div>

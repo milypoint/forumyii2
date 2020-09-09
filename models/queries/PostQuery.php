@@ -20,4 +20,9 @@ class PostQuery extends ActiveQuery
     {
         return $this->andWhere(['category_id' => $category_id]);
     }
+
+    public function byId($id)
+    {
+        return $this->andWhere(['id' => $id]);
+    }
 }

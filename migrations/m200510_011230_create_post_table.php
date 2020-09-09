@@ -34,8 +34,8 @@ class m200510_011230_create_post_table extends Migration
             'post',
             'created_by',
             'user',
-            'id',
-            'RESTRICT'
+            'id'
+//            'CASCADE'
         );
     }
 

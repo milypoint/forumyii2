@@ -6,10 +6,10 @@ use app\models\Category;
 use app\models\Message;
 use app\models\Post;
 use Yii;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-
 
 class PostController extends Controller
 {
@@ -79,13 +79,29 @@ class PostController extends Controller
             }
             if ($isSucces) {
                 Yii::$app->session->setFlash('success', 'Success! Post created.');
-//                $post = new Post();
-//                $post_message = new Message();
                 return $this->redirect('/category/'.$category->path.'/post/'.$post->getPrimaryKey());
             } else {
                 Yii::$app->session->setFlash('warning', 'Error! Post was not created.');
             }
         }
         return $this->render('post_create', ['post' => $post, 'message' => $post_message]);
+    }
+
+    public function actionDelete($post_id)
+    {
+        $model = Post::find()->byId($post_id)->one();
+        if ($model === null) {
+            throw new NotFoundHttpException('Post with id <' .$post_id.'> not found.');
+        }
+        $category = Category::find()->byId($model->category_id)->one();
+        if ($category === null) {
+            throw new NotFoundHttpException('Category with id <' .$model->category_id.'> not found.');
+        }
+        try {
+            $model->delete();
+            return $this->redirect(['category/'. $category->path]);
+        } catch (StaleObjectException $e) {
+        } catch (\Throwable $e) {
+        }
     }
 }
