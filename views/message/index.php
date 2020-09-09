@@ -1,6 +1,7 @@
 <?php
 
 use app\models\MessageLike;
+use app\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -22,7 +23,7 @@ $js = <<< JS
           data: {'message_id': value},
           success: function (data) {
               console.log(data);
-              var but = $("#button_".concat(value)); //setAttribute('value', data.count)
+              var but = $("#button_".concat(value));
               but.text('Like '.concat(data.count));
           },
           error: function () {
@@ -34,22 +35,24 @@ $this->registerJs( $js, $position = yii\web\View::POS_HEAD, $key = null );
 
 ?>
 <div>
-    <h3>Messages in post <?php echo $post->title; ?></h3>
+    <h3><small style="color: gray">Post </small><b><?php echo $post->title; ?></b></h3>
     <?php
     if (Yii::$app->user->getId() == $post->created_by || Yii::$app->user->can('admin')) {
-        echo Html::a('Delete', ['/post/'. $post->getPrimaryKey() .'/delete'], ['class'=>'btn btn-primary']);
+        echo Html::a('Delete post', ['/post/'. $post->getPrimaryKey() .'/delete'], ['class'=>'btn btn-primary']);
     }
     ?>
     <?php foreach ($messages as $message):?>
-        <p><?php echo $message->content; ?></p>
+        <p style="background-color: #e6f2ff"><em style="color: gray"><?=User::find()->byId($message->created_by)->one()->username?></em> <?php echo $message->content; ?></p>
         <?php
         $count = MessageLike::find()->byMessageId($message->id)->count();
         echo Html::button('Like '. $count,
             [
-                'class'=>'btn btn-primary',
+                'class'=>'teaser',
                 'id' => "button_".$message->id,
                 'value' => $message->id,
-                'onclick' => 'like('.$message->id.', "'.Url::to(['api/like']).'");'
+                'onclick' => 'like('.$message->id.', "'.Url::to(['api/like']).'");',
+                'color' => 'white',
+                'background-color' => '#4CAF50'
             ]);
         ?>
         <br>
