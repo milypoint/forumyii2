@@ -34,8 +34,8 @@ class m200510_011824_create_message_table extends Migration
             'message',
             'created_by',
             'user',
-            'id',
-            'RESTRICT'
+            'id'
+//            'CASCADE'
         );
     }
 

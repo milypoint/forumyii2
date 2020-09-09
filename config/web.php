@@ -15,6 +15,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'DQhng55rrE2iP7m3_3JYRJjS--9Eiea8',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -49,18 +52,35 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'auth/confirm/<email>/<code>' => 'auth/confirm',
+                '/' => 'category/index',
                 'category' => 'category/index',
+                'category/create' => 'category/create',
                 'category/<category_path>' => 'post/index',
+                'category/<category_path>/delete' => 'category/delete',
                 'category/<category_path>/post/<post_id>' => 'message/index',
+                'post/<post_id>/delete' => 'post/delete',
                 'post/create/<category_path>' => 'post/create',
                 'message/create/<post_id>' => 'message/create',
                 'login' => 'auth/login',
                 'register' => 'auth/register',
                 'logout' => 'auth/logout',
+                'like/message/<message_id>' =>'/like/message',
+                'POST /api/like' => 'api/like/like',
+                'GET /api/like' => 'api/like/index'
             ],
         ],
+
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+    ],
+    'modules' => [
+        'api' => [
+            'class' => \app\modules\api\Module::class
+        ]
     ],
     'params' => $params,
+
 ];
 
 if (YII_ENV_DEV) {

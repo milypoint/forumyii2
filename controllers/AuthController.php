@@ -51,12 +51,18 @@ class AuthController extends Controller
 
     /**
      * @return string
+     * @throws \Exception
      */
     public function actionRegister()
     {
         $model = new User(['scenario' => User::SCENARIO_REGISTER]);
 
         if ($model->load(Yii::$app->request->post())  && $model->save()) {
+
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole('user');
+            $auth->assign($role, $model->id);
+
             Yii::$app->session->setFlash('success', 'Check your email box for complete registration.');
             $url = Url::to(['auth/confirm/'.$model->email.'/'.$model->confirm_code], true);
             $msg = (new MessageHelper('Verify your email by following this link: ' . $url))

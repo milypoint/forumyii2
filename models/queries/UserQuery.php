@@ -23,4 +23,13 @@ class UserQuery extends ActiveQuery
     {
         return $this->andWhere(['email' => $email]);
     }
+
+    /**
+     * @param integer $id
+     * @return UserQuery
+     */
+    public function byId($id)
+    {
+        return $this->andWhere(['id' => $id]);
+    }
 }
