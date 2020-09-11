@@ -29,7 +29,7 @@ class m200908_162154_create_message_like_table extends Migration
         );
 
         $this->createIndex(
-            'idx-message_like-message_id',
+            'idx-message_like-message_id-liked_by',
             'message_like',
             ['message_id', 'liked_by'],
             true
@@ -41,6 +41,7 @@ class m200908_162154_create_message_like_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropIndex('idx-message_like-message_id-liked_by', 'message_like');
         $this->dropForeignKey('fk-message_like-liked_by', 'message_like');
         $this->dropTable('message_like');
     }

@@ -44,6 +44,8 @@ class m200510_011230_create_post_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-post-created_by', 'post');
+        $this->dropForeignKey('fk-post-category_id', 'post');
         $this->dropTable('post');
     }
 }

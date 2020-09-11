@@ -44,6 +44,8 @@ class m200510_011824_create_message_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-message-post_id', 'message');
+        $this->dropForeignKey('fk-message-created_by', 'message');
         $this->dropTable('message');
     }
 }

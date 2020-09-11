@@ -42,6 +42,8 @@ class m200506_155817_create_user_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropIndex('uk_users_email', 'user');
+        $this->dropIndex('uk_users_username', 'user');
         $this->dropTable('user');
     }
 }

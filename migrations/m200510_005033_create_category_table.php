@@ -50,6 +50,9 @@ class m200510_005033_create_category_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-category-created_by', 'category');
+        $this->dropIndex('idx-category-name', 'category');
+        $this->dropIndex('idx-category-path', 'category');
         $this->dropTable('category');
     }
 }
