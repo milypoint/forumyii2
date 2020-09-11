@@ -6,10 +6,14 @@ use app\models\User;
 use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
+use yii\helpers\BaseConsole;
 use yii\helpers\Console;
 
 class RbacController extends Controller
 {
+    /**
+     * @return int
+     */
     public function actionInit()
     {
         $auth = Yii::$app->AuthManager;
@@ -20,8 +24,15 @@ class RbacController extends Controller
         $admin = $auth->createRole('admin');
         $auth->add($admin);
         $auth->addChild($admin, $user);
+
+        return ExitCode::OK;
     }
 
+    /**
+     * @param $user_id
+     * @return int
+     * @throws \Exception
+     */
     public function actionAdminAssign($user_id)
     {
         if (!$user_id || is_int($user_id)) {
@@ -35,15 +46,23 @@ class RbacController extends Controller
             return ExitCode::UNSPECIFIED_ERROR;
         }
 
-        $auth = Yii::$app->authManager;
-        $role = $auth->getRole('admin');
-        $auth->revokeAll($user_id);
-        $auth->assign($role, $user_id);
-
-        $this->stdout("Done!\n", Console::BOLD);
+        if (BaseConsole::input("Are you sure you are want add 'admin' role for user '$user->username'? <y/n>") == 'y') {
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole('admin');
+            $auth->revokeAll($user_id);
+            $auth->assign($role, $user_id);
+            $this->stdout("Done!\n", Console::BOLD);
+        } else {
+            $this->stdout("Canceled!\n", Console::BOLD);
+        }
         return ExitCode::OK;
     }
 
+    /**
+     * @param $user_id
+     * @return int
+     * @throws \Exception
+     */
     public function actionAdminDisassign($user_id)
     {
         if (!$user_id || is_int($user_id)) {
@@ -57,12 +76,16 @@ class RbacController extends Controller
             return ExitCode::UNSPECIFIED_ERROR;
         }
 
-        $auth = Yii::$app->authManager;
-        $role = $auth->getRole('user');
-        $auth->revokeAll($user_id);
-        $auth->assign($role, $user_id);
+        if (BaseConsole::input("Are you sure you are want remove 'admin' role for user '$user->username'? <y/n>") == 'y') {
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole('user');
+            $auth->revokeAll($user_id);
+            $auth->assign($role, $user_id);
 
-        $this->stdout("Done!\n", Console::BOLD);
+            $this->stdout("Done!\n", Console::BOLD);
+        } else {
+            $this->stdout("Canceled!\n", Console::BOLD);
+        }
         return ExitCode::OK;
     }
 }
