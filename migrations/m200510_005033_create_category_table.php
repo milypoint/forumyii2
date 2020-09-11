@@ -26,8 +26,8 @@ class m200510_005033_create_category_table extends Migration
             'category',
             'created_by',
             'user',
-            'id'
-//            'CASCADE'
+            'id',
+            'RESTRICT'
         );
 
         $this->createIndex(

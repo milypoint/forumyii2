@@ -28,6 +28,7 @@ class m200506_155817_create_user_table extends Migration
             'username',
             true
         );
+
         $this->createIndex(
             'uk_users_email',
             'user',
